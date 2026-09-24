@@ -33,7 +33,7 @@ python main.py --provider groq --input "hello"
 3. Click **Create API Key**, name it, copy the value (starts with `gsk_...`).
 4. Paste it into `.env` as `GROQ_API_KEY=gsk_...`.
 5. Groq's free tier gives generous rate limits on open-weight models
-   (Llama, etc.) — good for fast iteration.
+   (gpt-oss, Qwen, etc.) — good for fast iteration.
 
 ### Never commit `.env`
 `.env` is already in `.gitignore`. Only `.env.example` (no real values) is
