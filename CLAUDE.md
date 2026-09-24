@@ -1,45 +1,28 @@
 # Deriv — Project Notes for Claude
 
 ## Status
-Scaffold only. The actual problem statement is **not yet defined** — this repo
-was set up as a ready-to-extend automation/pipeline skeleton so real logic can
-be dropped in as soon as the task is known. Don't assume domain specifics
-(e.g. trading, Deriv.com's API) unless the user says so — "Deriv" here is just
-the folder/project name.
+Secure AI customer-support ticket processor (problem statement from the user's master
+prompt; `Projectidea.md` is empty). Offline by default. See README.md for full docs.
 
 ## Architecture
-- `src/config.py` — loads `.env`, exposes a single `settings` object.
-- `src/llm/` — provider-agnostic LLM layer.
-  - `base.py`: `LLMClient` ABC with `.generate(prompt, system=None)`.
-  - `gemini_client.py`, `groq_client.py`: concrete implementations.
-  - `factory.py`: `get_llm(provider)` — `provider` is `"gemini"` | `"groq"`,
-    defaults to `DEFAULT_PROVIDER` from `.env`.
-- `src/pipeline/` — minimal step-based pipeline (`Step.run(ctx) -> ctx`,
-  `Pipeline.run()` chains steps left to right). See `steps.py` for the
-  current placeholder: Ingest → LLMProcess → SaveOutput.
-- `main.py` — CLI entrypoint: `python main.py --provider groq --input "..."`.
-- `scripts/check_keys.py` — smoke-tests both API keys are working.
-- `tests/` — pytest; run with `pytest`.
-- `data/raw`, `data/processed`, `outputs/` — gitignored except `.gitkeep`.
+Pipeline (`src/pipeline.py`): LOAD_DATA -> INDEX_KB -> CLASSIFY_INTENT -> RETRIEVE_CONTEXT
+-> GENERATE_REPLY -> VALIDATE_OUTPUT -> WRITE_RESULTS. Components injected via ABCs:
+- `src/classifier.py` RuleBasedClassifier · `src/retriever.py` TfidfRetriever
+- `src/generator.py` TemplateReplyGenerator (default) / LLMReplyGenerator (opt-in, uses `src/llm/`)
+- `src/validator.py` PolicyValidator (independent grounding/policy/schema checks)
+- `src/safety.py` advice/injection detectors, confidence + escalation rules
+- `src/models.py` strict pydantic `Result` schema; `src/config.py` paths/limits/thresholds
 
 ## Conventions
-- All new pipeline logic should be a `Step` subclass in `src/pipeline/steps.py`
-  (or a new module under `src/pipeline/`), not inlined in `main.py`.
-- Never hardcode API keys — read them via `src.config.settings`.
-- Keep provider-specific code inside `src/llm/`; the rest of the codebase
-  should only ever call `get_llm()`.
+- Never branch on ticket IDs; behaviour must come from content.
+- Replies may contain only approved phrases (`APPROVED_SENTENCES`) or customerized KB sentences —
+  anything else is marked ungrounded by the validator. Adding template text = add it to that set.
+- Never echo ticket text into replies/logs/debug report.
+- LLM path stays off unless `LLM_ENABLED=true`; `.env` is not auto-loaded.
 
-## Setup
+## Commands
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # then fill in GEMINI_API_KEY / GROQ_API_KEY
-python scripts/check_keys.py   # verify both keys work
-python main.py --provider groq
+python main.py && python validate.py && python -m pytest -q
+python demo/server.py   # web demo on http://127.0.0.1:8000
 ```
-
-## Next steps (once problem statement is known)
-1. Define real `Step`s in `src/pipeline/steps.py` for actual ingestion/logic.
-2. Update `Ingest` to read real input (file, API, queue, etc.) instead of the
-   placeholder string.
-3. Add any new deps to `requirements.txt`.

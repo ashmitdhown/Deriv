@@ -5,6 +5,14 @@ project that aren't obvious from the code itself. Newest entries at the top.
 
 ---
 
+## 2026-09-24 — Built the ticket-processing service
+- Problem statement arrived (pasted master prompt): support-ticket classify → retrieve → grounded reply.
+- Replaced the generic scaffold (src/pipeline/, src/utils/, scripts/, data/, outputs/) with the flat
+  layout the brief asked for; kept `src/llm/` only for the optional, off-by-default LLM generator.
+- Config no longer calls `load_dotenv()` — default run must not depend on secrets.
+- Retrieval thresholds (min 0.08, strong 0.30) tuned on the 5-article sample KB; revisit for bigger KBs.
+- Strict grounding check means LLM paraphrases get escalated — intentional, documented.
+
 ## 2026-09-24 — Model names went stale
 - Original defaults (`gemini-2.5-flash`, `llama-3.3-70b-versatile`) 404'd: Gemini
   retired 2.5-flash for new users; Groq dropped the Llama 3.3 model.

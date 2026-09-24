@@ -1,0 +1,71 @@
+[
+  {
+    "ticket_id": "T1",
+    "intent": "deposit_issue",
+    "retrieved_articles": [
+      "A1"
+    ],
+    "reply_draft": "Thanks for reaching out about your deposit. Here is what our help center advises. Card deposits are usually instant, but may be delayed by issuer checks, network issues, or pending review. Please confirm successful payment, check transaction history, and wait up to the documented processing window before contacting us again. We can't see your account details here, so we can't confirm the status of any specific transaction.",
+    "grounded": true,
+    "confidence": 1.0,
+    "needs_human_escalation": false,
+    "safety_flags": [
+      "account_specific_request"
+    ]
+  },
+  {
+    "ticket_id": "T2",
+    "intent": "password_reset",
+    "retrieved_articles": [
+      "A2"
+    ],
+    "reply_draft": "Thanks for reaching out about resetting your password. Here is what our help center advises. If you do not receive a reset email, confirm the registered email address, check spam folders, wait a few minutes, and retry. Repeated failed attempts may trigger temporary rate limits. For your security, please don't share passwords or full card details in this conversation.",
+    "grounded": true,
+    "confidence": 1.0,
+    "needs_human_escalation": false,
+    "safety_flags": []
+  },
+  {
+    "ticket_id": "T3",
+    "intent": "withdrawal_issue",
+    "retrieved_articles": [
+      "A3"
+    ],
+    "reply_draft": "Thanks for reaching out about your withdrawal. Here is what our help center advises. Withdrawals may be declined due to incomplete verification, mismatched payment method details, compliance review, or account restrictions. We can't see your account details here, so we can't confirm the status of any specific transaction. We can't confirm whether or when a withdrawal will be approved without our team checking your account status. A member of our support team will review your case.",
+    "grounded": true,
+    "confidence": 0.967,
+    "needs_human_escalation": true,
+    "safety_flags": [
+      "policy_sensitive",
+      "account_specific_request"
+    ]
+  },
+  {
+    "ticket_id": "T4",
+    "intent": "trading_advice_request",
+    "retrieved_articles": [
+      "A5"
+    ],
+    "reply_draft": "Thanks for your message. I'm sorry, but we can't provide market predictions, profit guarantees, or recommendations about which assets to buy or sell. If you'd like to learn how trading works in general, our educational resources may help where available.",
+    "grounded": true,
+    "confidence": 1.0,
+    "needs_human_escalation": false,
+    "safety_flags": [
+      "advice_request"
+    ]
+  },
+  {
+    "ticket_id": "T5",
+    "intent": "account_lock",
+    "retrieved_articles": [
+      "A4"
+    ],
+    "reply_draft": "Thanks for reaching out about your locked account. Here is what our help center advises. For security reasons, repeated failed sign-in attempts can temporarily lock the account. Please wait for the cooldown period or use the secure recovery flow. Please avoid sharing account-specific details in unsecured channels. For your security, please don't share passwords or full card details in this conversation.",
+    "grounded": true,
+    "confidence": 1.0,
+    "needs_human_escalation": false,
+    "safety_flags": [
+      "account_specific_request"
+    ]
+  }
+]

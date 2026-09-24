@@ -1,0 +1,298 @@
+{
+  "stages": [
+    "LOAD_DATA",
+    "INDEX_KB",
+    "CLASSIFY_INTENT",
+    "RETRIEVE_CONTEXT",
+    "GENERATE_REPLY",
+    "VALIDATE_OUTPUT",
+    "WRITE_RESULTS"
+  ],
+  "components": {
+    "classifier": "RuleBasedClassifier",
+    "retriever": "TfidfRetriever",
+    "generator": "TemplateReplyGenerator",
+    "validator": "PolicyValidator"
+  },
+  "summary": {
+    "tickets_processed": 5,
+    "tickets_rejected": 0,
+    "escalated": 1
+  },
+  "rejected_tickets": [],
+  "tickets": [
+    {
+      "ticket_id": "T1",
+      "message_chars": 92,
+      "predicted_intent": "deposit_issue",
+      "evidence_topic": "deposit_issue",
+      "query_expansion": "card deposit processing",
+      "classifier": {
+        "certainty": 1.0,
+        "rule_coverage": 1.0,
+        "scores": {
+          "deposit_issue": 4.0,
+          "password_reset": 0,
+          "withdrawal_issue": 0,
+          "account_lock": 0,
+          "trading_advice_request": 0.0
+        },
+        "conflicting_signals": false,
+        "advice_detected": false
+      },
+      "retrieval": {
+        "sufficient": true,
+        "threshold": 0.08,
+        "articles": [
+          {
+            "article_id": "A1",
+            "title": "Card deposit processing times",
+            "score": 0.505249
+          }
+        ],
+        "best_rejected_candidate": null
+      },
+      "generator": "template",
+      "cited_articles": [
+        "A1"
+      ],
+      "generator_notes": [],
+      "validation_issues": [],
+      "fallback_used": false,
+      "grounded": true,
+      "confidence": 1.0,
+      "confidence_breakdown": {
+        "retrieval": 0.5,
+        "classifier": 0.3,
+        "coverage": 0.2,
+        "final": 1.0
+      },
+      "safety_flags": [
+        "account_specific_request"
+      ],
+      "needs_human_escalation": false,
+      "escalation_reasons": [
+        "mentions account-specific data not available in the local KB: general KB guidance given, flagged",
+        "not escalated: reply is grounded in retrieved KB content (or is a policy refusal) and no escalation trigger fired"
+      ]
+    },
+    {
+      "ticket_id": "T2",
+      "message_chars": 60,
+      "predicted_intent": "password_reset",
+      "evidence_topic": "password_reset",
+      "query_expansion": "password reset email",
+      "classifier": {
+        "certainty": 1.0,
+        "rule_coverage": 1.0,
+        "scores": {
+          "deposit_issue": 0,
+          "password_reset": 6.0,
+          "withdrawal_issue": 0,
+          "account_lock": 0,
+          "trading_advice_request": 0.0
+        },
+        "conflicting_signals": false,
+        "advice_detected": false
+      },
+      "retrieval": {
+        "sufficient": true,
+        "threshold": 0.08,
+        "articles": [
+          {
+            "article_id": "A2",
+            "title": "Password reset troubleshooting",
+            "score": 0.473166
+          }
+        ],
+        "best_rejected_candidate": null
+      },
+      "generator": "template",
+      "cited_articles": [
+        "A2"
+      ],
+      "generator_notes": [],
+      "validation_issues": [],
+      "fallback_used": false,
+      "grounded": true,
+      "confidence": 1.0,
+      "confidence_breakdown": {
+        "retrieval": 0.5,
+        "classifier": 0.3,
+        "coverage": 0.2,
+        "final": 1.0
+      },
+      "safety_flags": [],
+      "needs_human_escalation": false,
+      "escalation_reasons": [
+        "not escalated: reply is grounded in retrieved KB content (or is a policy refusal) and no escalation trigger fired"
+      ]
+    },
+    {
+      "ticket_id": "T3",
+      "message_chars": 50,
+      "predicted_intent": "withdrawal_issue",
+      "evidence_topic": "withdrawal_issue",
+      "query_expansion": "withdrawal declined review",
+      "classifier": {
+        "certainty": 1.0,
+        "rule_coverage": 0.833,
+        "scores": {
+          "deposit_issue": 0,
+          "password_reset": 0,
+          "withdrawal_issue": 2.5,
+          "account_lock": 0,
+          "trading_advice_request": 0.0
+        },
+        "conflicting_signals": false,
+        "advice_detected": false
+      },
+      "retrieval": {
+        "sufficient": true,
+        "threshold": 0.08,
+        "articles": [
+          {
+            "article_id": "A3",
+            "title": "Withdrawal review and declines",
+            "score": 0.352982
+          }
+        ],
+        "best_rejected_candidate": null
+      },
+      "generator": "template",
+      "cited_articles": [
+        "A3"
+      ],
+      "generator_notes": [],
+      "validation_issues": [],
+      "fallback_used": false,
+      "grounded": true,
+      "confidence": 0.967,
+      "confidence_breakdown": {
+        "retrieval": 0.5,
+        "classifier": 0.3,
+        "coverage": 0.1666,
+        "final": 0.967
+      },
+      "safety_flags": [
+        "policy_sensitive",
+        "account_specific_request"
+      ],
+      "needs_human_escalation": true,
+      "escalation_reasons": [
+        "withdrawal issues are policy-sensitive: outcome depends on account status/compliance review",
+        "mentions account-specific data not available in the local KB: general KB guidance given, flagged"
+      ]
+    },
+    {
+      "ticket_id": "T4",
+      "message_chars": 66,
+      "predicted_intent": "trading_advice_request",
+      "evidence_topic": null,
+      "query_expansion": "investment trading advice market predictions asset recommendations",
+      "classifier": {
+        "certainty": 1.0,
+        "rule_coverage": 1.0,
+        "scores": {
+          "deposit_issue": 0,
+          "password_reset": 0,
+          "withdrawal_issue": 0,
+          "account_lock": 0,
+          "trading_advice_request": 3.0
+        },
+        "conflicting_signals": false,
+        "advice_detected": true
+      },
+      "retrieval": {
+        "sufficient": true,
+        "threshold": 0.08,
+        "articles": [
+          {
+            "article_id": "A5",
+            "title": "No investment or trading advice",
+            "score": 0.622224
+          }
+        ],
+        "best_rejected_candidate": null
+      },
+      "generator": "template",
+      "cited_articles": [
+        "A5"
+      ],
+      "generator_notes": [],
+      "validation_issues": [],
+      "fallback_used": false,
+      "grounded": true,
+      "confidence": 1.0,
+      "confidence_breakdown": {
+        "retrieval": 0.5,
+        "classifier": 0.3,
+        "coverage": 0.2,
+        "final": 1.0
+      },
+      "safety_flags": [
+        "advice_request"
+      ],
+      "needs_human_escalation": false,
+      "escalation_reasons": [
+        "trading/investment advice requested: refused per policy (a pure advice request needs no escalation)",
+        "not escalated: reply is grounded in retrieved KB content (or is a policy refusal) and no escalation trigger fired"
+      ]
+    },
+    {
+      "ticket_id": "T5",
+      "message_chars": 70,
+      "predicted_intent": "account_lock",
+      "evidence_topic": "account_lock",
+      "query_expansion": "account lock failed sign-in attempts",
+      "classifier": {
+        "certainty": 1.0,
+        "rule_coverage": 1.0,
+        "scores": {
+          "deposit_issue": 0,
+          "password_reset": 0,
+          "withdrawal_issue": 0,
+          "account_lock": 4.5,
+          "trading_advice_request": 0.0
+        },
+        "conflicting_signals": false,
+        "advice_detected": false
+      },
+      "retrieval": {
+        "sufficient": true,
+        "threshold": 0.08,
+        "articles": [
+          {
+            "article_id": "A4",
+            "title": "Account lock after failed sign-in attempts",
+            "score": 0.659344
+          }
+        ],
+        "best_rejected_candidate": null
+      },
+      "generator": "template",
+      "cited_articles": [
+        "A4"
+      ],
+      "generator_notes": [],
+      "validation_issues": [],
+      "fallback_used": false,
+      "grounded": true,
+      "confidence": 1.0,
+      "confidence_breakdown": {
+        "retrieval": 0.5,
+        "classifier": 0.3,
+        "coverage": 0.2,
+        "final": 1.0
+      },
+      "safety_flags": [
+        "account_specific_request"
+      ],
+      "needs_human_escalation": false,
+      "escalation_reasons": [
+        "mentions account-specific data not available in the local KB: general KB guidance given, flagged",
+        "not escalated: reply is grounded in retrieved KB content (or is a policy refusal) and no escalation trigger fired"
+      ]
+    }
+  ]
+}

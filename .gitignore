@@ -5,8 +5,4 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .DS_Store
-outputs/result.json
-data/raw/*
-data/processed/*
-outputs/*
-!**/.gitkeep
+.*.tmp
